@@ -56,12 +56,10 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({ para
 
     const product = await stripe.products.retrieve(productId, {
         expand: ['default_price']
-    })
+    });
 
 
     const price = product.default_price as Stripe.Price
-
-            
 
     return {
         props: {
@@ -75,6 +73,7 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({ para
                         currency: 'BRL',
                     }).format(price.unit_amount/100),
                     description: product.description,
+                    defaultPriceId: price.id,
                 }
         },
         revalidate: 60 * 60 * 1, //1 hour
